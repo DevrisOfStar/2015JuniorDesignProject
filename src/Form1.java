@@ -1,10 +1,14 @@
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -17,7 +21,7 @@ public class Form1 extends JFrame{
 
 	public static void main(String[] args) {
 		
-		new SearchResult();
+		new Form1();
 
 	}
 	
@@ -36,29 +40,34 @@ public class Form1 extends JFrame{
 		
 		JTextField Text1 = new JTextField();
 		add(Text1);
-		Text1.setBounds(100, 20, 200, 30);
+		Text1.setBounds(100, 20, 180, 30);
 
 		JButton button1 = new JButton("검색");
 		add(button1);
-		button1.setBounds(320, 20, 60, 30);
+		button1.setBounds(295, 20, 60, 30);
+		button1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+			//setVisible(true);
+			new DataBoard();}
+			});
 		
-		JButton button2 = new JButton("판매자 로그인");
+		JButton button2 = new JButton("회원가입");
 		add(button2);
-		button2.setBounds(550, 80,150, 30);
+		button2.setBounds(440, 20,120, 30);
 		button2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-			setVisible(false);
-			new Login();}
-			});
-		JButton button3 = new JButton("회원가입");
-		add(button3);
-		button3.setBounds(550, 130,150, 30);
-		button3.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-			setVisible(false);
+			//setVisible(true);
 			new SignUp();}
 			});
-
+		
+		JButton button3 = new JButton("판매자 로그인");
+		add(button3);
+		button3.setBounds(580, 20,120,30);
+		button3.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+			//setVisible(true);
+			new Login();}
+			});
 		try{
 			img = ImageIO.read(new File("seoul_map.gif"));
 		}catch(IOException e){
@@ -78,5 +87,7 @@ public class Form1 extends JFrame{
 		g.drawImage(img,  0,  0,  null);
 		}
 	}
+	
+
 
 }

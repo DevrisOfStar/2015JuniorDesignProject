@@ -1,9 +1,13 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -21,7 +25,7 @@ public class Login extends JFrame
 		setSize(280, 150);
 		setResizable(false);
 		setLocation(300,300);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		placeLoginPanel(panel);
@@ -48,23 +52,50 @@ public class Login extends JFrame
 		Textpwd = new JPasswordField(20);
 		Textpwd.setBounds(100,40,160,25);
 		panel.add(Textpwd);
-		//Textpwd.addActionListener(new ActionListener(){});
+
 		
 		sign_in = new JButton("sign in");
 		sign_in.setBounds(10,80,100,25);
 		panel.add(sign_in);
 		
 		sign_in.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-			//Textid 와 Textpwd의 정보를 DB와 비교
-			setVisible(false);
-			new DataBoard();}
+			public void actionPerformed(ActionEvent e){ //Textid 와 Textpwd의 정보를 DB와 비교
+				// SQL Connect
+				SQLConnection a = new SQLConnection();
+				Connection con = a.makeConnection();
+				try{
+
+					Statement stmt = con.createStatement();
+					ResultSet rs = stmt.executeQuery("SELECT * FROM USER WHERE UID ='" +Textid.getText() + "'");
+					if(rs.next()) {
+						
+						if((rs.getString(2)).equals(Textpwd.getText())){ //pwd 일치
+							setVisible(false);
+							new DataBoard();
+							JOptionPane.showMessageDialog(null,"\""+ rs.getString(1) + "\"(" +rs.getString(6) +") 님 환영합니다.", "로그인", JOptionPane.PLAIN_MESSAGE);
+						}
+						else { //pwd 일치
+							JOptionPane.showMessageDialog(null, "비밀번호가 틀립니다", "로그인실패", JOptionPane.PLAIN_MESSAGE);
+						}
+					}
+					else JOptionPane.showMessageDialog(null, "존재하는 아이디가 없습니다.", "로그인실패", JOptionPane.PLAIN_MESSAGE);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
 			});
 		
 		sign_up = new JButton("sign up");
 		sign_up.setBounds(160, 80, 100, 25);
 		panel.add(sign_up);
-		//sign_up.addActionListener(new ActionListener(){});_
+
+		sign_up.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+			//Textid 와 Textpwd의 정보를 DB와 비교
+			setVisible(false);
+			dispose();
+			new SignUp();}
+			});
 
 	}
 

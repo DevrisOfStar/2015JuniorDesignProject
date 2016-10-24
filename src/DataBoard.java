@@ -23,7 +23,7 @@ public class DataBoard extends JFrame {
 	public DataBoard(){
 		super("등록된 물품");
 		setSize(600, 300);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		model = new MyTableModel();
 		model.fillTable();
@@ -77,7 +77,7 @@ public class DataBoard extends JFrame {
 		
 		public void fillTable()
 		{
-			//데이터베이스로부터 배열을 체운다
+			//데이터베이스로부터 배열을 채운다
 		}
 		
 		public void setValueAt(Object value, int row, int col){
