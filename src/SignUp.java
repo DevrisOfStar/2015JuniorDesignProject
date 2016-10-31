@@ -100,8 +100,10 @@ public class SignUp extends JFrame{
 		try{
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT DISTINCT Region1 FROM region");
+	
 			while(rs.next()) {
 					region1.add(rs.getString(1));
+					
 			}
 		}
 		catch (Exception ex) {
@@ -167,12 +169,15 @@ public class SignUp extends JFrame{
 						JOptionPane.showMessageDialog(null, "아이디가 이미 존재합니다", "회원가입 실패", JOptionPane.PLAIN_MESSAGE);
 					}
 					else { // 회원가입 data를 DB의 user Table 에 삽입
-					rs = stmt.executeQuery("select RegionCode From region where Region1 = '" + Region1.getSelectedItem().toString() + "' && ' Region 2 = '" + Region2.getSelectedItem().toString()+"'");
+					rs = stmt.executeQuery("select RegionCode From region where Region1 = '" + Region1.getSelectedItem().toString() + "' && Region2 = '" + Region2.getSelectedItem().toString()+"'");
 					rs.next();
 					int RegionCode = rs.getInt(1);
-					String sql = "insert into user values('" + Textid.getText() +"', '" + pw.getText() + "', 'Y','"+ RegionCode +"','" +Textname.getText() +"','" + phone.getSelectedItem().toString() + phone_t.getText()+"');";
-					//String sql = "insert into user values('" + Textid.getText() +"', '" + pw.getText() + "', 'Y','"+Region1.getSelectedItem().toString() + "','"+Region2.getSelectedItem().toString() + "','" +Textname.getText() +"','" + phone.getSelectedItem().toString() + phone_t.getText()+"');";
+					String sql = "insert into user (UID, Password, Host, Name,Tel, Region)  values('" + Textid.getText() +"', '" + pw.getText() + "', 'Y','"+ Textname.getText() +"','" +phone.getSelectedItem().toString() + phone_t.getText() +"','" + RegionCode +"')";
 					stmt.executeUpdate(sql); // select 문을 제외한 나머지를 실행할때 사용하는 메소드
+					rs = stmt.executeQuery("select * from user where UID ='"+ Textid.getText() +"'");
+					rs.next();
+					sql = "insert into branch values ('" + rs.getInt(7) +"','"+ rs.getString(4)+"','"+ rs.getString(5)+"')";
+					stmt.executeUpdate(sql);
 					setVisible(false);
 					dispose();
 					JOptionPane.showMessageDialog(null, "회원가입 완료하였습니다. 로그인하여주세요.", "회원가입 성공", JOptionPane.PLAIN_MESSAGE);

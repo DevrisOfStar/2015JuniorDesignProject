@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,9 +29,32 @@ public class SearchResult extends JFrame{
 		
 		model = new MyTableModel();
 		model.fillTable();
-		JLabel label = new JLabel("가까운 빵집List", JLabel.CENTER);
+		// 클릭한 동이름 전달
+		String ConturyName = "장충동";
+		JLabel label = new JLabel(""+ConturyName ,JLabel.LEFT);
 		label.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		add(label, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		
+		panel.add(new JLabel("다시 검색하기"));
+		namef = new JTextField(10);
+		panel.add(namef);
+		
+		button = new JButton("검색");
+		//button.addActionListener(this);
+		panel.add(button);
+		
+		//임시로
+		button = new JButton("BranchInfo");
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+			//setVisible(true);
+			new BranchInfo("paris");}
+			});
+		panel.add(button);
+		
+		add(panel, BorderLayout.SOUTH);
 		
 		table = new JTable(model);
 		
@@ -43,9 +68,9 @@ public class SearchResult extends JFrame{
 	}//databoard
 	
 	public class MyTableModel extends AbstractTableModel{
-		private String[] columnNames = {"BRAND", "Location", "Distance", "Open/Close"};
+		private String[] columnNames = {"BRAND", "Location", "Open/Close"};
 		private static final int ROWS = 10;
-		private static final int COLS = 4;
+		private static final int COLS = 3;
 		Object[][] data = new String[ROWS][COLS];
 		
 		public int getColumnCount()

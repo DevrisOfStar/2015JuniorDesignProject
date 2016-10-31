@@ -17,7 +17,7 @@ public class Login extends JFrame
 	JLabel labelid, labelpwd;
 	JTextField Textid;
 	JPasswordField Textpwd;
-	JButton sign_in, sign_up;
+	JButton sign_in, cancel;
 	
 	Login()
 	{
@@ -71,8 +71,8 @@ public class Login extends JFrame
 						
 						if((rs.getString(2)).equals(Textpwd.getText())){ //pwd 일치
 							setVisible(false);
-							new DataBoard();
-							JOptionPane.showMessageDialog(null,"\""+ rs.getString(1) + "\"(" +rs.getString(6) +") 님 환영합니다.", "로그인", JOptionPane.PLAIN_MESSAGE);
+							new Form1(Textid.getText(),rs.getInt(7));
+							JOptionPane.showMessageDialog(null,"\""+ rs.getString(1) + "\"(" +rs.getString(4) +") 님 환영합니다.", "로그인", JOptionPane.PLAIN_MESSAGE);
 						}
 						else { //pwd 일치
 							JOptionPane.showMessageDialog(null, "비밀번호가 틀립니다", "로그인실패", JOptionPane.PLAIN_MESSAGE);
@@ -85,16 +85,16 @@ public class Login extends JFrame
 			}
 			});
 		
-		sign_up = new JButton("sign up");
-		sign_up.setBounds(160, 80, 100, 25);
-		panel.add(sign_up);
+		cancel = new JButton("cancel");
+		cancel.setBounds(160, 80, 100, 25);
+		panel.add(cancel);
 
-		sign_up.addActionListener(new ActionListener(){
+		cancel.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 			//Textid 와 Textpwd의 정보를 DB와 비교
 			setVisible(false);
 			dispose();
-			new SignUp();}
+			new Form1(null,0);}
 			});
 
 	}
